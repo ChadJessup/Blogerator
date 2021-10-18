@@ -107,6 +107,12 @@ ipch/
 *.VC.db
 *.VC.VC.opendb
 
+# Store stuff in appsettings.<machinename>.json that won't get checked in
+appsettings.*.json
+
+# specifically add ones back that can be checked on.
+!appsettings.Development.json
+
 # Visual Studio profiler
 *.psess
 *.vsp
@@ -348,3 +354,4 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/Bad
