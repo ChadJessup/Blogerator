@@ -3,7 +3,7 @@
 public class Blog
 {
     public long Id { get; set; }
-    public string Name { get; set; } = "Adhdev";
+    public string Name { get; set; } = "Blogerator";
 
     public List<Post> Posts { get; set; } = new();
 }

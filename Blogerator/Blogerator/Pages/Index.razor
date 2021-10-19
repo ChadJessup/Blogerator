@@ -2,20 +2,33 @@
 @inject BlogeratorContainer container
 @attribute [AllowAnonymous]
 
-<PageTitle>ADHDev</PageTitle>
+<PageTitle>@blogTitle</PageTitle>
 
 <MudText Typo="Typo.h3" GutterBottom="true">Hello, world!</MudText>
-<MudText Class="mb-8">Welcome to your new app, powered by MudBlazor!</MudText>
+
+@if (!container.IsInitialized || newestPost is null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <MudMarkdown Value="@value" />
+}
+
 <MudAlert Severity="Severity.Normal">You can find documentation and examples on our website here: <MudLink Href="https://mudblazor.com" Typo="Typo.body2" Color="Color.Inherit"><b>www.mudblazor.com</b></MudLink></MudAlert>
 
 
-@code{
-    private string BlogTitle { get; set; } = "Empty";
+@code {
+    private string blogTitle { get; set; } = "Empty";
+    private string value { get; set; } = string.Empty;
+    private Post? newestPost { get; set; }
 
-    protected Task OnInitializedAsync(CancellationToken token = default)
+    protected override Task OnInitializedAsync()
     {
-        this.BlogTitle = "Adhdev";
+        this.blogTitle = container.BlogTitle;
+        this.newestPost = container.GetNewestPost();
+        this.value = this.newestPost.Contents;
 
-        return Task.CompletedTask;
+        return base.OnInitializedAsync();
     }
 }

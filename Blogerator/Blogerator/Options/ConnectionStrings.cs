@@ -2,5 +2,5 @@
 
 public class ConnectionStrings
 {
-    public string Adhdev { get; set; } = string.Empty;
+    public string Blogerator { get; set; } = string.Empty;
 }

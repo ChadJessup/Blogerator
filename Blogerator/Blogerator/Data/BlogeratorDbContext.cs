@@ -16,7 +16,7 @@ public class BlogeratorDbContext : DbContext
     public DbSet<Post> Posts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlServer(this.configuration.GetConnectionString("Adhdev"));
+        => options.UseSqlServer(this.configuration.GetConnectionString(nameof(ConnectionStrings.Blogerator)));
 }
 
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
