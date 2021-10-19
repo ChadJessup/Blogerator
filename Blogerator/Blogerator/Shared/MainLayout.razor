@@ -9,7 +9,17 @@
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudSpacer />
         <LoginDisplay />
-        <MudButton OnClick="@((e) => DarkMode())">Toggle Dark/Light Mode</MudButton>
+
+        <MudToggleIconButton
+          Toggled="@IsDarkMode"
+          Color="@Color.Default"
+          ToggledColor="@Color.Default"
+          ToggledChanged="DarkModeToggle"
+          Icon="@Icons.Material.Outlined.DarkMode"
+          ToggledIcon="@Icons.Material.Filled.DarkMode"
+          ToggledTitle="Light"
+          Title="Dark" />
+
     </MudAppBar>
     <MudDrawer @bind-Open="drawerOpen" ClipMode="DrawerClipMode.Always">
         <NavMenu />
@@ -25,6 +35,8 @@
 @code {
 
     public bool drawerOpen = true;
+    public bool IsDarkMode { get; set; } = true;
+
     MudTheme currentTheme = new MudTheme();
     MudTheme defaultTheme = new MudTheme()
     {
@@ -61,16 +73,12 @@
         }
     };
 
-    void DarkMode()
+    public void DarkModeToggle(bool toggled)
     {
-        if (currentTheme == defaultTheme)
-        {
-            currentTheme = darkTheme;
-        }
-        else
-        {
-            currentTheme = defaultTheme;
-        }
+        this.IsDarkMode = toggled;
+        currentTheme = this.IsDarkMode
+          ? darkTheme
+          : defaultTheme;
     }
 
     void DrawerToggle()
@@ -80,7 +88,7 @@
 
     protected override void OnInitialized()
     {
-        currentTheme = darkTheme;
+        this.DarkModeToggle(true);
         StateHasChanged();
     }
 }
