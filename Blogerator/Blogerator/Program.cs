@@ -14,6 +14,7 @@ builder.Configuration.AddJsonFile($"appsettings.{Environment.MachineName}.json",
 builder.Services.AddOptions<BlogeratorOptions>();
 builder.Services.Configure<BlogeratorOptions>(builder.Configuration);
 
+builder.Services.AddSingleton<TagManager>();
 builder.Services.AddSingleton<BlogeratorContainer>();
 builder.Services.AddMudServices();
 builder.Services.AddMudMarkdownServices();

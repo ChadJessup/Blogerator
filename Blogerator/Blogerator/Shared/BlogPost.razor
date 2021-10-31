@@ -1,4 +1,6 @@
 ﻿@using Humanizer
+@inject TagManager tagManager
+
 <MudCard>
     <div style="position:relative">
         <MudCardMedia Image="https://clip.cafe/clipimg/did-make-it.jpg" Height="250" />
@@ -15,7 +17,7 @@
         <MudChipSet>
             @foreach (var tag in Post?.Tags ?? Enumerable.Empty<Tag>())
             {
-              <MudChip Text=@tag.Name></MudChip>
+              <MudChip Text=@tag.Name />
             }
         </MudChipSet>
     </MudCardContent>

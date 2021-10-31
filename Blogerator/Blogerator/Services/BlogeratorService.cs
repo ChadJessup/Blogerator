@@ -8,16 +8,19 @@ public class BlogeratorService : IHostedService
     private readonly ILogger<BlogeratorService> logger;
     private readonly IServiceProvider serviceProvider;
     private readonly BlogeratorContainer container;
+    private readonly TagManager tagManager;
 
     public BlogeratorService(
         ILogger<BlogeratorService> logger,
         IOptions<BlogeratorOptions> options,
         IServiceProvider serviceProvider,
-        BlogeratorContainer container)
+        BlogeratorContainer container,
+        TagManager tagManager)
     {
         this.logger = logger;
         this.options = options;
         this.container = container;
+        this.tagManager = tagManager;
         this.serviceProvider = serviceProvider;
     }
 
@@ -27,8 +30,11 @@ public class BlogeratorService : IHostedService
         var context = scope.ServiceProvider.GetRequiredService<BlogeratorDbContext>();
 
         var blogDetails = await context.Blogs.FirstOrDefaultAsync(token);
-        await context.Posts.LoadAsync(token);
-        await context.Tags.LoadAsync(token);
+        await context.Blogs
+            .Include(e => e.Posts).ThenInclude(p => p.Tags)
+            .LoadAsync(token);
+            
+        await this.tagManager.LoadTagsAsync(token);
 
         if (blogDetails is null)
         {
@@ -39,9 +45,13 @@ public class BlogeratorService : IHostedService
 
         this.container.BlogTitle = blogDetails.Name;
         this.container.Posts = blogDetails.Posts;
-        this.container.Tags = blogDetails.Tags;
+        var post = this.container.Posts.First();
 
-        //var post = this.container.Posts.First();
+        foreach (var tag in this.tagManager.Tags)
+        {
+        //    await this.tagManager.AddPostToTag(tag, post, token);
+        }
+
         //blogDetails.Tags.AddRange(post.Tags);
         // post.Tags.Add(new() { Name = "Games" });
         // post.Tags.Add(new() { Name = "Programming" });

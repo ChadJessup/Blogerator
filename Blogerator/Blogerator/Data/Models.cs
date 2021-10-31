@@ -4,9 +4,7 @@ public class Blog
 {
     public long Id { get; set; }
     public string Name { get; set; } = "Blogerator";
-
-    public List<Post> Posts { get; set; } = new();
-    public List<Tag> Tags { get; set; } = new();
+    public IList<Post> Posts { get; } = new List<Post>();
 }
 
 public record Post
@@ -17,11 +15,15 @@ public record Post
     public DateTime CreatedAt { get; set; }
     public string TitleImageUrl { get; set; } = string.Empty;
     public string Contents { get; set; } = string.Empty;
-    public List<Tag> Tags { get; set; } = new();
+    public IList<Tag> Tags { get; } = new List<Tag>();
+
+    public long BlogId { get; set; }
+    public Blog Blog { get; set; }
 }
 
 public record Tag
 {
     public long Id { get; set; }
     public string Name { get; set; } = string.Empty;
+    public IList<Post> Posts { get; } = new List<Post>();
 }

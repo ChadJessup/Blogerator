@@ -4,6 +4,7 @@ using Blogerator.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blogerator.Migrations
 {
     [DbContext(typeof(BlogeratorDbContext))]
-    partial class BlogeratorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211031070605_AddingTagManager")]
+    partial class AddingTagManager
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,7 +49,7 @@ namespace Blogerator.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<long>("BlogId")
+                    b.Property<long?>("BlogId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Contents")
@@ -61,6 +63,9 @@ namespace Blogerator.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TagId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -72,6 +77,8 @@ namespace Blogerator.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BlogId");
+
+                    b.HasIndex("TagId");
 
                     b.ToTable("Posts");
                 });
@@ -93,48 +100,23 @@ namespace Blogerator.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("PostTag", b =>
-                {
-                    b.Property<long>("PostsId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TagsId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("PostsId", "TagsId");
-
-                    b.HasIndex("TagsId");
-
-                    b.ToTable("PostTag");
-                });
-
             modelBuilder.Entity("Blogerator.Data.Post", b =>
                 {
-                    b.HasOne("Blogerator.Data.Blog", "Blog")
+                    b.HasOne("Blogerator.Data.Blog", null)
                         .WithMany("Posts")
-                        .HasForeignKey("BlogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Blog");
-                });
-
-            modelBuilder.Entity("PostTag", b =>
-                {
-                    b.HasOne("Blogerator.Data.Post", null)
-                        .WithMany()
-                        .HasForeignKey("PostsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BlogId");
 
                     b.HasOne("Blogerator.Data.Tag", null)
-                        .WithMany()
-                        .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Posts")
+                        .HasForeignKey("TagId");
                 });
 
             modelBuilder.Entity("Blogerator.Data.Blog", b =>
+                {
+                    b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("Blogerator.Data.Tag", b =>
                 {
                     b.Navigation("Posts");
                 });

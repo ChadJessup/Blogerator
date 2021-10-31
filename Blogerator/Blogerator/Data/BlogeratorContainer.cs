@@ -4,14 +4,14 @@ public class BlogeratorContainer
 {
     private readonly ILogger<BlogeratorContainer> logger;
 
-    public BlogeratorContainer(ILogger<BlogeratorContainer> logger)
+    public BlogeratorContainer(
+        ILogger<BlogeratorContainer> logger)
     {
         this.logger = logger;
     }
 
     public string BlogTitle { get; set; } = string.Empty;
     public virtual ICollection<Post>? Posts { get; set; }
-    public virtual ICollection<Tag>? Tags { get; set; }
 
     public bool IsInitialized { get; set; } = false;
 

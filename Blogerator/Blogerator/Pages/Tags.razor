@@ -1,5 +1,7 @@
 ﻿@page "/tags"
 @inject BlogeratorContainer container
+@inject TagManager tagManager
+
 @attribute [AllowAnonymous]
 
 <PageTitle>Tags</PageTitle>
@@ -13,9 +15,9 @@
 else
 {
     <MudChipSet>
-        @foreach (var group in (container.Tags ?? Enumerable.Empty<Tag>()).GroupBy(t => t.Name))
+        @foreach (var tag in tagManager.Tags)
         {
-            var text = $"{group.Key} x{group.Count()}";
+            var text = $"{tag.Name} x{tag.Posts.Count()}";
             <MudChip Text=@text></MudChip>
         }
     </MudChipSet>
