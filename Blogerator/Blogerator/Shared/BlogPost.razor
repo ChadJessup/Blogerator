@@ -12,6 +12,12 @@
     <MudCardContent>
         <MudText>@GetPublishDate() (<ToLocal DateTime="@Post!.CreatedAt" Format="ddd mmm dd yyyy HH:MM:ss" />)</MudText>
         <MudMarkdown Value="@Post?.Contents" />
+        <MudChipSet>
+            @foreach (var tag in Post?.Tags ?? Enumerable.Empty<Tag>())
+            {
+              <MudChip Text=@tag.Name></MudChip>
+            }
+        </MudChipSet>
     </MudCardContent>
 </MudCard>
 
@@ -19,7 +25,7 @@
     [Parameter] public Post? Post { get; set; }
 
     private string GetPublishDate() => $"{this.Post?.CreatedAt.Humanize()}"
-    ?? "Published some time in the past.";
+      ?? "Published some time in the past.";
 
     protected override Task OnInitializedAsync()
     {

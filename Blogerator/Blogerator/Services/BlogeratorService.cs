@@ -28,6 +28,7 @@ public class BlogeratorService : IHostedService
 
         var blogDetails = await context.Blogs.FirstOrDefaultAsync(token);
         await context.Posts.LoadAsync(token);
+        await context.Tags.LoadAsync(token);
 
         if (blogDetails is null)
         {
@@ -38,6 +39,14 @@ public class BlogeratorService : IHostedService
 
         this.container.BlogTitle = blogDetails.Name;
         this.container.Posts = blogDetails.Posts;
+        this.container.Tags = blogDetails.Tags;
+
+        //var post = this.container.Posts.First();
+        //blogDetails.Tags.AddRange(post.Tags);
+        // post.Tags.Add(new() { Name = "Games" });
+        // post.Tags.Add(new() { Name = "Programming" });
+        // 
+        //await context.SaveChangesAsync(token);
 
         this.container.IsInitialized = true;
     }

@@ -1,0 +1,31 @@
+﻿@page "/tags"
+@inject BlogeratorContainer container
+@attribute [AllowAnonymous]
+
+<PageTitle>Tags</PageTitle>
+
+<h1>Tags</h1>
+
+@if (!container.IsInitialized)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <MudChipSet>
+        @foreach (var group in (container.Tags ?? Enumerable.Empty<Tag>()).GroupBy(t => t.Name))
+        {
+            var text = $"{group.Key} x{group.Count()}";
+            <MudChip Text=@text></MudChip>
+        }
+    </MudChipSet>
+}
+
+@code {
+
+    
+    protected override Task OnInitializedAsync()
+    {
+        return base.OnInitializedAsync();
+    }
+}

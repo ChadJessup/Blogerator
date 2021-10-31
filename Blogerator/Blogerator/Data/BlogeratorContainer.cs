@@ -11,6 +11,7 @@ public class BlogeratorContainer
 
     public string BlogTitle { get; set; } = string.Empty;
     public virtual ICollection<Post>? Posts { get; set; }
+    public virtual ICollection<Tag>? Tags { get; set; }
 
     public bool IsInitialized { get; set; } = false;
 

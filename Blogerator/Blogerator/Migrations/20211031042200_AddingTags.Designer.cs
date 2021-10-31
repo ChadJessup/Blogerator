@@ -4,6 +4,7 @@ using Blogerator.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blogerator.Migrations
 {
     [DbContext(typeof(BlogeratorDbContext))]
-    partial class BlogeratorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211031042200_AddingTags")]
+    partial class AddingTags
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,9 +86,6 @@ namespace Blogerator.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<long?>("BlogId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -96,11 +95,9 @@ namespace Blogerator.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BlogId");
-
                     b.HasIndex("PostId");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tag");
                 });
 
             modelBuilder.Entity("Blogerator.Data.Post", b =>
@@ -112,10 +109,6 @@ namespace Blogerator.Migrations
 
             modelBuilder.Entity("Blogerator.Data.Tag", b =>
                 {
-                    b.HasOne("Blogerator.Data.Blog", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("BlogId");
-
                     b.HasOne("Blogerator.Data.Post", null)
                         .WithMany("Tags")
                         .HasForeignKey("PostId");
@@ -124,8 +117,6 @@ namespace Blogerator.Migrations
             modelBuilder.Entity("Blogerator.Data.Blog", b =>
                 {
                     b.Navigation("Posts");
-
-                    b.Navigation("Tags");
                 });
 
             modelBuilder.Entity("Blogerator.Data.Post", b =>

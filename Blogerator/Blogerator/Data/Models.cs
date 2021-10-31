@@ -6,6 +6,7 @@ public class Blog
     public string Name { get; set; } = "Blogerator";
 
     public List<Post> Posts { get; set; } = new();
+    public List<Tag> Tags { get; set; } = new();
 }
 
 public record Post
@@ -16,4 +17,11 @@ public record Post
     public DateTime CreatedAt { get; set; }
     public string TitleImageUrl { get; set; } = string.Empty;
     public string Contents { get; set; } = string.Empty;
+    public List<Tag> Tags { get; set; } = new();
+}
+
+public record Tag
+{
+    public long Id { get; set; }
+    public string Name { get; set; } = string.Empty;
 }

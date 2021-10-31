@@ -14,6 +14,7 @@ public class BlogeratorDbContext : DbContext
 
     public DbSet<Blog> Blogs { get; set; }
     public DbSet<Post> Posts { get; set; }
+    public DbSet<Tag> Tags { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlServer(this.configuration.GetConnectionString(nameof(ConnectionStrings.Blogerator)));
