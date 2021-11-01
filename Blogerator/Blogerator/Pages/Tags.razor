@@ -1,5 +1,4 @@
 ﻿@page "/tags"
-@using Flurl
 @inject NavigationManager NavigationManager
 @inject BlogeratorContainer container
 @inject TagManager tagManager
@@ -19,30 +18,30 @@ else
     <MudChipSet @bind-SelectedChips="selectedTags" MultiSelection="true" Filter="true">
         @foreach (var tag in tagManager.Tags)
         {
-            var text = $"{tag.Name} x{tag.Posts.Count()}";
-            var isDefault = filterTags.Contains(tag.Name.ToLower());
-
-            <MudChip Default=@isDefault Tag=@tag.Name Text=@text Variant="Variant.Text" Color="Color.Secondary"></MudChip>
+            <MudChip Default=@filterTags.Contains(tag.Name.ToLower())
+             Tag=@tag.Name
+             Text=@($"{tag.Name} x{tag.Posts.Count}")
+             Variant="Variant.Text"
+             Color="Color.Secondary" />
         }
     </MudChipSet>
 }
 
 @code {
-
     private MudChip[] selectedTags { get; set; } = Array.Empty<MudChip>();
     private HashSet<string> filterTags { get; set; } = new HashSet<string>();
     private char[] tagQueryParamSplits = new[] { ',' };
 
     protected override Task OnInitializedAsync()
     {
-        var queryParams = new Url(NavigationManager.Uri).QueryParams;
+        var queryParams = new Flurl.Url(NavigationManager.Uri).QueryParams;
 
         foreach (var query in queryParams.Where(qp => qp.Name.Equals("filter", StringComparison.InvariantCultureIgnoreCase)))
         {
             var queryTags = query.Value.ToString()
               .Split(tagQueryParamSplits, StringSplitOptions.RemoveEmptyEntries);
 
-            foreach(var qt in queryTags)
+            foreach (var qt in queryTags)
             {
                 filterTags.Add(qt.ToLower());
             }

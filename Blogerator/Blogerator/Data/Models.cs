@@ -25,5 +25,5 @@ public record Tag
 {
     public long Id { get; set; }
     public string Name { get; set; } = string.Empty;
-    public IList<Post> Posts { get; } = new List<Post>();
+    public List<Post> Posts { get; } = new List<Post>();
 }
