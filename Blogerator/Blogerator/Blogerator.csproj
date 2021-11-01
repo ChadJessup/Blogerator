@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="BlazorTime" Version="1.0.3" />
+    <PackageReference Include="Flurl" Version="3.0.2" />
     <PackageReference Include="Humanizer" Version="2.11.10" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.0-rc.2.21480.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0-rc.2.21480.5" />

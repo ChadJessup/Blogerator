@@ -17,7 +17,9 @@
         <MudChipSet>
             @foreach (var tag in Post?.Tags ?? Enumerable.Empty<Tag>())
             {
-              <MudChip Text=@tag.Name />
+              <MudLink Href=@($"/tags?filter={@tag.Name.ToLower()}")>
+                <MudChip Text=@tag.Name Variant="Variant.Text" Color="Color.Secondary" />
+              </MudLink>
             }
         </MudChipSet>
     </MudCardContent>
